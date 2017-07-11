@@ -23,6 +23,14 @@
   const brickOffsetLeft = 30;
   const bricks = [];
 
+  let score = 0;
+
+  const drawScore = function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score: " + score, 8, 20);
+  };
+
   const drawBall = function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -80,6 +88,12 @@
           ) {
             bricks[r][c].status = 'inactive';
             dy = -dy;
+            score += 1;
+
+            if(score === (brickRowCount * brickColumnCount)) {
+              alert('YOU WIN, CONGRATULATION!');
+              document.location.reload();
+            }
           }
         }
       }
@@ -91,6 +105,7 @@
     drawBall();
     drawPaddle();
     drawBricks();
+    drawScore();
     collitionDetection()
 
     if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
@@ -118,8 +133,6 @@
   };
 
   function keyDownHandler(e) {
-    console.log('keyDownHandler');
-    console.log(e.keyCode);
     if(e.keyCode === 39) {
       rightPressed = true;
     } else if (e.keyCode === 37) {
